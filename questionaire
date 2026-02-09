@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talent Spotlight Profile – Quick Questionnaire</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
+    h1, h2 { color: #333; }
+    label { display: block; margin: 15px 0 5px; font-weight: bold; }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea, select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+    textarea { height: 120px; }
+    .optional { font-style: italic; color: #555; }
+    .section { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+    button { background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .note { background: #f8f9fa; padding: 15px; border-left: 4px solid #007bff; margin: 20px 0; }
+  </style>
+</head>
+<body>
+
+<h1>Talent Spotlight Profile – Quick Questionnaire</h1>
+
+<div class="note">
+  <p>Hi there! Thanks for teaming up with [Your Firm’s Name]! We’re excited to celebrate your potential and connect you with awesome sponsorship opportunities.</p>
+  <p>This should take 10–20 minutes. Answer as much or as little as you like—no pressure. Skip anything with “N/A” or leave blank. We'll follow up if needed.</p>
+  <p>Questions? Reply to [your-email@example.com]. Let's make your story shine! 🚀</p>
+</div>
+
+<form action="YOUR_MAKE_WEBHOOK_URL_HERE" method="POST">
+  <!-- Optional: Honeypot for basic spam protection -->
+  <input type="text" name="_gotcha" style="display:none">
+
+  <div class="section">
+    <h2>1. Basics</h2>
+    <label>Full name (include stage/professional name if any):</label>
+    <input type="text" name="full_name" required>
+
+    <label>Age / Date of Birth (optional):</label>
+    <input type="text" name="age_dob">
+
+    <label>Current location (city & country):</label>
+    <input type="text" name="location" required>
+
+    <label>Contact info (email, phone, main socials, website, agent):</label>
+    <textarea name="contact" required placeholder="e.g., email: hi@you.com | IG: @yourhandle | etc."></textarea>
+
+    <label>Main talent category (e.g., DJ, extreme athlete, musician):</label>
+    <input type="text" name="talent_category" required>
+
+    <label>Pronouns (e.g., he/him, she/her, they/them):</label>
+    <input type="text" name="pronouns">
+  </div>
+
+  <div class="section">
+    <h2>2. Your Story</h2>
+    <label>Quick journey (100–200 words – tell it like a story!):</label>
+    <textarea name="journey" required placeholder="How/why you started, inspiration, key moment..."></textarea>
+
+    <label>3–5 biggest achievements/milestones (with dates & details):</label>
+    <textarea name="achievements" required placeholder="e.g., • Headlined festival 2024 • Viral set 5M views..."></textarea>
+
+    <label>What makes you stand out? (signature style, philosophy, etc.):</label>
+    <textarea name="unique" required></textarea>
+  </div>
+
+  <div class="section">
+    <h2>3. Skills & Momentum</h2>
+    <label>Top skills/abilities + certs/specialties:</label>
+    <textarea name="skills" required></textarea>
+
+    <label>Recent highlights (last 6–12 months):</label>
+    <textarea name="recent" required></textarea>
+
+    <label>Goals for next 1–3 years:</label>
+    <textarea name="goals" required></textarea>
+  </div>
+
+  <div class="section">
+    <h2>4. Reach & Audience</h2>
+    <label>Social platforms & follower counts (with links):</label>
+    <textarea name="socials" required placeholder="IG: @handle (45k followers) | TikTok: ..."></textarea>
+
+    <label>Rough audience demographics (age, gender, locations, interests):</label>
+    <textarea name="demographics"></textarea>
+
+    <label>Any media features (links/details):</label>
+    <textarea name="media"></textarea>
+  </div>
+
+  <div class="section">
+    <h2>5. Sponsorship Fit</h2>
+    <label>Past brand work/partnerships (if any):</label>
+    <textarea name="past_partners"></textarea>
+
+    <label>Dream brands/industries & why they match:</label>
+    <textarea name="dream_brands" required></textarea>
+
+    <label>Key values/causes you support:</label>
+    <textarea name="values"></textarea>
+
+    <label>Collaboration ideas you'd love:</label>
+    <textarea name="collab_ideas"></textarea>
+  </div>
+
+  <div class="section">
+    <h2>6. Visuals & Extras</h2>
+    <label>Links to 3–5 best photos/videos (headshots, action, highlights):</label>
+    <textarea name="visuals" placeholder="e.g., https://imgur.com/... | YouTube highlight reel: ..."></textarea>
+
+    <label>Fun fact, hobby, or quirky detail:</label>
+    <textarea name="fun_fact"></textarea>
+
+    <label>Anything else we should know?</label>
+    <textarea name="anything_else"></textarea>
+  </div>
+
+  <div class="section optional">
+    <h2>7. Optional Logistics for Activations & Gifting</h2>
+    <p class="optional">(Only to help with fitted gear/merch if a campaign happens. 100% optional, confidential, skip freely!)</p>
+
+    <label>Shirt size (S/M/L/XL or numeric):</label>
+    <input type="text" name="shirt_size">
+
+    <label>Shoe size (US/EU/UK):</label>
+    <input type="text" name="shoe_size">
+
+    <label>Height (cm or ft/in – optional):</label>
+    <input type="text" name="height">
+
+    <label>Any allergies or relevant conditions? (for safe product use/events – N/A fine!):</label>
+    <textarea name="allergies_conditions" placeholder="N/A"></textarea>
+  </div>
+
+  <button type="submit">Submit My Profile</button>
+</form>
+
+<p style="text-align:center; margin-top:40px;">We'll review and get back soon—thanks for sharing your talent!</p>
+
+</body>
+</html>
