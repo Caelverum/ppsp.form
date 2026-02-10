@@ -152,5 +152,15 @@
 
 <p style="text-align:center; margin-top:40px;">Thank you kindly LEGEND! We shall connect with you soon!</p>
 
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+  const btn = this.querySelector('button[type="submit"]');
+  if (btn.disabled) { e.preventDefault(); return; }
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+});
+</script>
+
+
 </body>
 </html>
