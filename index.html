@@ -8,20 +8,22 @@
     body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
     h1, h2 { color: #333; }
     label { display: block; margin: 15px 0 5px; font-weight: bold; }
-    input[type="text"], input[type="email"], input[type="tel"], input[type="url"], input[type="date"], select, textarea {
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select, textarea {
       width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
     }
     textarea { height: 120px; }
     .name-row { display: flex; gap: 10px; }
     .name-row input { flex: 1; }
-    .optional { font-style: italic; color: #555; }
     .section { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
     button { background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
     button:hover { background: #0056b3; }
+    button:disabled { background: #6c757d; cursor: not-allowed; }
     .note { background: #f8f9fa; padding: 15px; border-left: 4px solid #007bff; margin: 20px 0; }
     .social-input { display: flex; align-items: center; margin: 8px 0; gap: 12px; flex-wrap: wrap; }
     .social-input label { flex: 0 0 120px; font-weight: normal; text-align: right; }
     .social-input input { flex: 1; min-width: 200px; }
+    #formMessage.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    #formMessage.error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
     @media (max-width: 500px) {
       .social-input { flex-direction: column; align-items: flex-start; }
       .social-input label { text-align: left; }
@@ -37,12 +39,11 @@
   <p>This should take 5-10 minutes. Answer what you can, as much or as little as you like—no pressure.</p>
 </div>
 
-<form action="https://hook.us1.make.com/kqjx91e2xq4qtbs55akbog1cwy3oat5d" method="POST">
+<form id="profileForm" action="https://hook.us1.make.com/kqjx91e2xq4qtbs55akbog1cwy3oat5d" method="POST">
   <input type="text" name="_gotcha" style="display:none">
 
   <div class="section">
     <h2>1. Basics</h2>
-    
     <label>Title</label>
     <select name="title" required>
       <option value="">Select</option>
@@ -71,15 +72,23 @@
     <input type="email" name="email" required>
 
     <label>Residential Address</label>
-    <input type="text" name="address" required>
+    <input type="text" name="address" required placeholder="Street number and name">
 
-    <label>Website (if any)</label>
-    <input type="url" name="website">
+    <label>Area/Suburb</label>
+    <input type="text" name="suburb" placeholder="e.g. Shinjuku">
+
+    <label>City</label>
+    <input type="text" name="city" required placeholder="e.g. Tokyo">
+
+    <label>Postcode</label>
+    <input type="text" name="postcode" required placeholder="e.g. 160-0022">
+
+    <label>Country</label>
+    <input type="text" name="country" required placeholder="e.g. Japan">
   </div>
 
   <div class="section">
     <h2>2. Activity Category & Intro</h2>
-    
     <label>Activity Category</label>
     <select name="activity_category" required>
       <option value="">Select one</option>
@@ -98,16 +107,14 @@
     </select>
 
     <label>A Quick Intro (max 1000 characters)</label>
-    <textarea name="quick_intro" maxlength="1000" required 
-      placeholder="Tell us about your current or potential quest?"></textarea>
+    <textarea name="quick_intro" maxlength="1000" required placeholder="Tell us about your current or potential quest?"></textarea>
 
     <label>What made you even think about starting such a quest, project and adventure? (max 1000 characters)</label>
-    <textarea name="motivation_story" maxlength="1000" required 
-      placeholder="Share your initial spark, inspiration, 'why now' moment, or the story behind deciding to pursue this..."></textarea>
+    <textarea name="motivation_story" maxlength="1000" required placeholder="Share your initial spark, inspiration, 'why now' moment, or the story behind deciding to pursue this..."></textarea>
+  </div>
 
- <div class="section">
+  <div class="section">
     <h2>3. Social Pages and Links</h2>
-
     <label>Social Pages & Profiles Owned (Public) – add handle/link for each</label>
     <div class="social-input">
       <label>Instagram</label>
@@ -147,20 +154,51 @@
     </div>
   </div>
 
-  <button type="submit">Submit My Profile</button>
+  <div id="formMessage" style="margin:20px 0; padding:15px; border-radius:4px; display:none;"></div>
+
+  <button type="submit" id="submitBtn">Submit My Profile</button>
 </form>
 
 <p style="text-align:center; margin-top:40px;">Thank you kindly LEGEND! We shall connect with you soon!</p>
 
 <script>
-document.querySelector('form').addEventListener('submit', function(e) {
-  const btn = this.querySelector('button[type="submit"]');
-  if (btn.disabled) { e.preventDefault(); return; }
+const form = document.getElementById('profileForm');
+const btn = document.getElementById('submitBtn');
+const msg = document.getElementById('formMessage');
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
   btn.disabled = true;
   btn.textContent = 'Submitting...';
+  msg.style.display = 'none';
+
+  const formData = new FormData(form);
+
+  fetch(form.action, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    btn.disabled = false;
+    btn.textContent = 'Submit My Profile';
+    if (response.ok) {
+      msg.textContent = 'Profile submitted successfully! We will contact you soon.';
+      msg.className = 'success';
+      msg.style.display = 'block';
+      form.reset();
+    } else {
+      throw new Error('Submission error');
+    }
+  })
+  .catch(() => {
+    btn.disabled = false;
+    btn.textContent = 'Submit My Profile';
+    msg.textContent = 'Submission failed. Please check fields and try again.';
+    msg.className = 'error';
+    msg.style.display = 'block';
+  });
 });
 </script>
-
 
 </body>
 </html>
